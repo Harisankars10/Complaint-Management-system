@@ -56,7 +56,7 @@ function AdminDashboard() {
 
   return (
     <DashboardLayout title="Admin Dashboard" basePath="/admin">
-      <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
+      <section id="dashboard" className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-6 scroll-mt-24">
         <StatCard title="Total Complaints" value={summary.total} icon="📊" color="indigo" />
         <StatCard title="Resolved" value={summary.resolved} icon="✅" color="green" />
         <StatCard title="Pending" value={summary.pending} icon="⏳" color="amber" />
@@ -68,7 +68,7 @@ function AdminDashboard() {
         </div>
       )}
 
-      <section id="complaints">
+      <section id="complaints" className="scroll-mt-24">
         <Card title="All Complaints" subtitle="Update status and monitor progress in real time.">
           <div className="overflow-x-auto">
             <table className="min-w-full text-sm">

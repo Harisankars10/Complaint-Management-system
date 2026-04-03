@@ -1,5 +1,5 @@
 import React from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 
 function DashboardIcon({ className }) {
@@ -43,9 +43,9 @@ function Sidebar({ basePath = "/dashboard", isOpen = false, onClose = () => {} }
   const location = useLocation();
 
   const items = [
-    { label: "Dashboard", to: basePath, hash: "", Icon: DashboardIcon },
-    { label: "Complaints", to: `${basePath}#complaints`, hash: "#complaints", Icon: ComplaintsIcon },
-    { label: "Add Complaint", to: `${basePath}#dashboard`, hash: "#dashboard", Icon: AddIcon },
+    { label: "Dashboard", hash: "", Icon: DashboardIcon },
+    { label: "Complaints", hash: "#complaints", Icon: ComplaintsIcon },
+    { label: "Add Complaint", hash: "#dashboard", Icon: AddIcon },
   ];
 
   const handleLogout = () => {
@@ -74,20 +74,35 @@ function Sidebar({ basePath = "/dashboard", isOpen = false, onClose = () => {} }
       <nav className="p-4 space-y-2.5">
         {items.map((item) => {
           const isActive = isItemActive(item);
+          const go = () => {
+            onClose();
+            if (item.hash) {
+              if (location.pathname === basePath && location.hash === item.hash) {
+                const id = item.hash.slice(1);
+                document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" });
+                return;
+              }
+              navigate(`${basePath}${item.hash}`);
+              return;
+            }
+            navigate(basePath);
+            requestAnimationFrame(() => window.scrollTo({ top: 0, behavior: "smooth" }));
+          };
           return (
-            <Link
+            <button
               key={item.label}
-              to={item.to}
-              onClick={onClose}
-              className={`flex items-center gap-3 rounded-xl px-3.5 py-2.5 text-sm font-medium transition-all duration-200 ${
+              type="button"
+              onClick={go}
+              aria-current={isActive ? "page" : undefined}
+              className={`w-full text-left flex items-center gap-3 rounded-xl px-3.5 py-2.5 text-sm font-medium transition-all duration-200 ${
                 isActive
                   ? "bg-gradient-to-r from-indigo-50 to-violet-50 dark:from-slate-700 dark:to-slate-700 text-indigo-700 dark:text-slate-100 shadow-sm ring-1 ring-indigo-100 dark:ring-slate-500"
                   : "text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-slate-100 hover:translate-x-0.5"
               }`}
             >
-              <item.Icon className="h-4 w-4" />
+              <item.Icon className="h-4 w-4 shrink-0" />
               <span>{item.label}</span>
-            </Link>
+            </button>
           );
         })}
 

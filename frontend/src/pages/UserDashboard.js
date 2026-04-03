@@ -131,7 +131,7 @@ function UserDashboard() {
         </div>
       )}
 
-      <section id="dashboard" className="mb-6">
+      <section id="dashboard" className="mb-6 scroll-mt-24">
         <Card title="Submit Complaint" subtitle="Share your issue with clear details for faster resolution.">
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
@@ -207,7 +207,7 @@ function UserDashboard() {
         </Card>
       </section>
 
-      <section id="complaints">
+      <section id="complaints" className="scroll-mt-24">
         <Card title="My Complaints" subtitle="Auto-refreshes every 5 seconds for real-time tracking.">
           <div className="flex flex-col md:flex-row md:items-center gap-3 mb-4">
             <input

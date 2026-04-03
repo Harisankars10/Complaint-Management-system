@@ -1,9 +1,20 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
 import Sidebar from "./Sidebar";
 import TopNavbar from "./TopNavbar";
 
 function DashboardLayout({ title, basePath, children }) {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const location = useLocation();
+
+  useEffect(() => {
+    const raw = location.hash?.replace(/^#/, "");
+    if (!raw) return;
+    const frame = requestAnimationFrame(() => {
+      document.getElementById(raw)?.scrollIntoView({ behavior: "smooth", block: "start" });
+    });
+    return () => cancelAnimationFrame(frame);
+  }, [location.pathname, location.hash]);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-indigo-50/30 to-violet-50/20 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900 md:flex">
