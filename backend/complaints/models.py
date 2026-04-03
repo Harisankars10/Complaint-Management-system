@@ -8,11 +8,25 @@ class Complaint(models.Model):
         ("in_progress", "In Progress"),
         ("resolved", "Resolved"),
     )
+    CATEGORY_CHOICES = (
+        ("technical", "Technical"),
+        ("hostel", "Hostel"),
+        ("academic", "Academic"),
+        ("transport", "Transport"),
+        ("other", "Other"),
+    )
+    PRIORITY_CHOICES = (
+        ("low", "Low"),
+        ("medium", "Medium"),
+        ("high", "High"),
+    )
 
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="complaints"
     )
     title = models.CharField(max_length=255)
+    category = models.CharField(max_length=30, choices=CATEGORY_CHOICES, default="technical")
+    priority = models.CharField(max_length=20, choices=PRIORITY_CHOICES, default="medium")
     description = models.TextField()
     image = models.ImageField(upload_to="complaints/", null=True, blank=True)
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default="pending")

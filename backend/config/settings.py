@@ -101,6 +101,9 @@ REST_FRAMEWORK = {
         "rest_framework_simplejwt.authentication.JWTAuthentication",
     ),
     "DEFAULT_PERMISSION_CLASSES": ("rest_framework.permissions.IsAuthenticated",),
+    "DEFAULT_PAGINATION_CLASS": "config.api.StandardResultsSetPagination",
+    "PAGE_SIZE": 10,
+    "EXCEPTION_HANDLER": "config.api.custom_exception_handler",
 }
 
 SIMPLE_JWT = {
@@ -110,3 +113,5 @@ SIMPLE_JWT = {
 }
 
 CORS_ALLOW_ALL_ORIGINS = config("CORS_ALLOW_ALL_ORIGINS", default=True, cast=bool)
+CORS_ALLOWED_ORIGINS = config("CORS_ALLOWED_ORIGINS", default="http://localhost:3000,http://localhost:3001").split(",")
+CORS_ALLOW_CREDENTIALS = True

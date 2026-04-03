@@ -1,5 +1,5 @@
 import React from "react";
-import { Navigate, Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes, useLocation } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import ProtectedRoute from "./components/ProtectedRoute";
 import AdminDashboard from "./pages/AdminDashboard";
@@ -16,9 +16,12 @@ function HomeRedirect() {
 }
 
 function App() {
+  const location = useLocation();
+  const isDashboardRoute = location.pathname === "/dashboard" || location.pathname === "/admin";
+
   return (
     <div className="app-shell">
-      <Navbar />
+      {!isDashboardRoute && <Navbar />}
       <main>
         <Routes>
           <Route path="/" element={<HomeRedirect />} />

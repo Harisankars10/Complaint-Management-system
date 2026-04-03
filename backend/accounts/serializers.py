@@ -21,6 +21,12 @@ class RegisterSerializer(serializers.ModelSerializer):
         return user
 
 
+class UserProfileSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ("id", "username", "email", "role")
+
+
 class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
     @classmethod
     def get_token(cls, user):
@@ -28,3 +34,14 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
         token["username"] = user.username
         token["role"] = user.role
         return token
+
+    def validate(self, attrs):
+        data = super().validate(attrs)
+        data["user"] = {
+            "id": self.user.id,
+            "username": self.user.username,
+            "email": self.user.email,
+            "role": self.user.role,
+        }
+        data["message"] = "Login successful."
+        return data
