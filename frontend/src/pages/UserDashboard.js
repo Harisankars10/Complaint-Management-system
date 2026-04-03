@@ -22,6 +22,7 @@ function UserDashboard() {
   const [statusFilter, setStatusFilter] = useState("all");
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
+  const [deletingId, setDeletingId] = useState(null);
   const ITEMS_PER_PAGE = 5;
 
   const fetchComplaints = async () => {
@@ -88,6 +89,20 @@ function UserDashboard() {
       setError("Could not submit complaint.");
     } finally {
       setIsSubmitting(false);
+    }
+  };
+
+  const handleDelete = async (id) => {
+    if (!window.confirm("Delete this complaint? This cannot be undone.")) return;
+    setDeletingId(id);
+    setError("");
+    try {
+      await api.delete(`/complaints/${id}/`);
+      await fetchComplaints();
+    } catch (err) {
+      setError(err?.response?.data?.message || "Could not delete complaint.");
+    } finally {
+      setDeletingId(null);
     }
   };
 
@@ -239,8 +254,11 @@ function UserDashboard() {
                     <th className="py-2 pr-4">Category</th>
                     <th className="py-2 pr-4">Priority</th>
                     <th className="py-2 pr-4">Status</th>
-                    <th className="py-2 pr-4">Date</th>
-                    <th className="py-2">Image</th>
+                    <th className="py-2 pr-4 max-w-[200px]">Admin reply</th>
+                    <th className="py-2 pr-4">Submitted</th>
+                    <th className="py-2 pr-4">Updated</th>
+                    <th className="py-2 pr-4">Image</th>
+                    <th className="py-2">Actions</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -254,8 +272,24 @@ function UserDashboard() {
                           {complaint.status.replace("_", " ")}
                         </span>
                       </td>
-                      <td className="py-3 pr-4 text-slate-600 dark:text-slate-300">{new Date(complaint.created_at).toLocaleString()}</td>
-                      <td className="py-3">
+                      <td className="py-3 pr-4 max-w-[200px] text-slate-600 dark:text-slate-300">
+                        {complaint.admin_response ? (
+                          <span className="line-clamp-2" title={complaint.admin_response}>
+                            {complaint.admin_response}
+                          </span>
+                        ) : (
+                          <span className="text-slate-400">—</span>
+                        )}
+                      </td>
+                      <td className="py-3 pr-4 text-slate-600 dark:text-slate-300 whitespace-nowrap">
+                        {new Date(complaint.created_at).toLocaleString()}
+                      </td>
+                      <td className="py-3 pr-4 text-slate-600 dark:text-slate-300 whitespace-nowrap">
+                        {complaint.updated_at
+                          ? new Date(complaint.updated_at).toLocaleString()
+                          : "—"}
+                      </td>
+                      <td className="py-3 pr-4">
                         {complaint.image_url ? (
                           <a
                             href={complaint.image_url}
@@ -267,6 +301,20 @@ function UserDashboard() {
                           </a>
                         ) : (
                           "N/A"
+                        )}
+                      </td>
+                      <td className="py-3">
+                        {complaint.status === "pending" ? (
+                          <button
+                            type="button"
+                            disabled={deletingId === complaint.id}
+                            onClick={() => handleDelete(complaint.id)}
+                            className="text-sm font-medium text-red-600 dark:text-red-400 hover:underline disabled:opacity-50"
+                          >
+                            {deletingId === complaint.id ? "Deleting…" : "Delete"}
+                          </button>
+                        ) : (
+                          <span className="text-slate-400 text-xs">—</span>
                         )}
                       </td>
                     </tr>

@@ -25,9 +25,11 @@ class ComplaintSerializer(serializers.ModelSerializer):
             "image_url",
             "status",
             "status_display",
+            "admin_response",
             "created_at",
+            "updated_at",
         )
-        read_only_fields = ("status", "created_at")
+        read_only_fields = ("status", "admin_response", "created_at", "updated_at")
 
     def get_image_url(self, obj):
         request = self.context.get("request")
@@ -39,10 +41,17 @@ class ComplaintSerializer(serializers.ModelSerializer):
 class ComplaintStatusUpdateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Complaint
-        fields = ("status",)
+        fields = ("status", "admin_response")
 
     def validate_status(self, value):
-        allowed = {"pending", "resolved"}
+        allowed = {"pending", "in_progress", "resolved"}
         if value not in allowed:
-            raise serializers.ValidationError("Status must be 'pending' or 'resolved'.")
+            raise serializers.ValidationError(
+                "Status must be 'pending', 'in_progress', or 'resolved'."
+            )
         return value
+
+    def validate_admin_response(self, value):
+        if value is None:
+            return ""
+        return value.strip()

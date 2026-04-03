@@ -1,5 +1,6 @@
 from django.db.models import Count, Q
 from rest_framework import generics, permissions, status
+from rest_framework.exceptions import PermissionDenied
 
 from config.api import success_response
 from .models import Complaint
@@ -48,11 +49,14 @@ class UserComplaintListView(generics.ListAPIView):
         status_param = self.request.query_params.get("status")
         category_param = self.request.query_params.get("category")
         search_param = self.request.query_params.get("search")
+        priority_param = self.request.query_params.get("priority")
 
         if status_param:
             queryset = queryset.filter(status=status_param)
         if category_param:
             queryset = queryset.filter(category=category_param)
+        if priority_param:
+            queryset = queryset.filter(priority=priority_param)
         if search_param:
             queryset = queryset.filter(
                 Q(title__icontains=search_param)
@@ -88,11 +92,14 @@ class AdminComplaintListView(generics.ListAPIView):
         status_param = self.request.query_params.get("status")
         category_param = self.request.query_params.get("category")
         search_param = self.request.query_params.get("search")
+        priority_param = self.request.query_params.get("priority")
 
         if status_param:
             queryset = queryset.filter(status=status_param)
         if category_param:
             queryset = queryset.filter(category=category_param)
+        if priority_param:
+            queryset = queryset.filter(priority=priority_param)
         if search_param:
             queryset = queryset.filter(
                 Q(title__icontains=search_param)
@@ -135,16 +142,21 @@ class AdminComplaintStatusUpdateView(generics.UpdateAPIView):
 class ComplaintDeleteView(generics.DestroyAPIView):
     """
     DELETE /api/complaints/<id>/
-    Owner can delete own complaint. Admin can delete any.
+    Owner can delete own complaint while status is pending. Admin can delete any.
     """
 
     permission_classes = [permissions.IsAuthenticated, IsOwnerOrAdmin]
     queryset = Complaint.objects.all()
 
-    def delete(self, request, *args, **kwargs):
-        complaint = self.get_object()
-        self.check_object_permissions(request, complaint)
-        complaint.delete()
+    def perform_destroy(self, instance):
+        user = self.request.user
+        if getattr(user, "role", None) != "admin" and instance.status != "pending":
+            raise PermissionDenied("You can only delete complaints that are still pending.")
+        instance.delete()
+
+    def destroy(self, request, *args, **kwargs):
+        instance = self.get_object()
+        self.perform_destroy(instance)
         return success_response(
             "Complaint deleted successfully.",
             [],

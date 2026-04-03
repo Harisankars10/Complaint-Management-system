@@ -30,7 +30,9 @@ class Complaint(models.Model):
     description = models.TextField()
     image = models.ImageField(upload_to="complaints/", null=True, blank=True)
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default="pending")
+    admin_response = models.TextField(blank=True, default="", help_text="Optional message visible to the user.")
     created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
         ordering = ["-created_at"]
