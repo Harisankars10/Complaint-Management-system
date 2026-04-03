@@ -1,0 +1,92 @@
+{
+  "info": {
+    "name": "Smart Complaint Management API",
+    "_postman_id": "d89d353f-e018-4dfa-87a5-1cfd63857fdd",
+    "description": "Sample requests for complaint management backend",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Register",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "url": { "raw": "{{baseUrl}}/auth/register/", "host": ["{{baseUrl}}"], "path": ["auth", "register", ""] },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"username\": \"student1\",\n  \"email\": \"student1@example.com\",\n  \"password\": \"password123\",\n  \"role\": \"user\"\n}"
+        }
+      }
+    },
+    {
+      "name": "Login",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "url": { "raw": "{{baseUrl}}/auth/login/", "host": ["{{baseUrl}}"], "path": ["auth", "login", ""] },
+        "body": { "mode": "raw", "raw": "{\n  \"username\": \"student1\",\n  \"password\": \"password123\"\n}" }
+      }
+    },
+    {
+      "name": "Create Complaint",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }],
+        "url": { "raw": "{{baseUrl}}/complaints/create/", "host": ["{{baseUrl}}"], "path": ["complaints", "create", ""] },
+        "body": {
+          "mode": "formdata",
+          "formdata": [
+            { "key": "title", "value": "Internet issue", "type": "text" },
+            { "key": "description", "value": "Wi-Fi is not working in hostel block A.", "type": "text" },
+            { "key": "image", "type": "file", "src": "" }
+          ]
+        }
+      }
+    },
+    {
+      "name": "My Complaints",
+      "request": {
+        "method": "GET",
+        "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }],
+        "url": { "raw": "{{baseUrl}}/complaints/my/", "host": ["{{baseUrl}}"], "path": ["complaints", "my", ""] }
+      }
+    },
+    {
+      "name": "Admin All Complaints",
+      "request": {
+        "method": "GET",
+        "header": [{ "key": "Authorization", "value": "Bearer {{adminAccessToken}}" }],
+        "url": { "raw": "{{baseUrl}}/complaints/admin/all/", "host": ["{{baseUrl}}"], "path": ["complaints", "admin", "all", ""] }
+      }
+    },
+    {
+      "name": "Admin Update Complaint Status",
+      "request": {
+        "method": "PATCH",
+        "header": [
+          { "key": "Authorization", "value": "Bearer {{adminAccessToken}}" },
+          { "key": "Content-Type", "value": "application/json" }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/complaints/admin/1/status/",
+          "host": ["{{baseUrl}}"],
+          "path": ["complaints", "admin", "1", "status", ""]
+        },
+        "body": { "mode": "raw", "raw": "{\n  \"status\": \"in_progress\"\n}" }
+      }
+    },
+    {
+      "name": "Admin Summary",
+      "request": {
+        "method": "GET",
+        "header": [{ "key": "Authorization", "value": "Bearer {{adminAccessToken}}" }],
+        "url": { "raw": "{{baseUrl}}/complaints/admin/summary/", "host": ["{{baseUrl}}"], "path": ["complaints", "admin", "summary", ""] }
+      }
+    }
+  ],
+  "variable": [
+    { "key": "baseUrl", "value": "http://127.0.0.1:8000/api" },
+    { "key": "accessToken", "value": "" },
+    { "key": "adminAccessToken", "value": "" }
+  ]
+}

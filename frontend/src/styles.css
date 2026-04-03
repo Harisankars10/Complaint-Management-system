@@ -1,0 +1,103 @@
+body {
+  background: linear-gradient(180deg, #f6f9ff 0%, #f2f7f5 100%);
+  min-height: 100vh;
+  color: #1f2937;
+}
+
+.app-shell {
+  padding-bottom: 30px;
+}
+
+.brand-pill {
+  font-weight: 700;
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 999px;
+  padding: 6px 12px;
+}
+
+.nav-user-tag {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 20px;
+  padding: 5px 12px;
+}
+
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.page-title {
+  margin: 0;
+  font-weight: 700;
+}
+
+.muted-note {
+  color: #6b7280;
+  font-size: 0.92rem;
+}
+
+.card-soft {
+  border: none;
+  border-radius: 14px;
+  box-shadow: 0 10px 25px rgba(15, 23, 42, 0.08);
+}
+
+.card-soft .card-header {
+  background: #f8fbff;
+  border-bottom: 1px solid #e9eef7;
+  font-weight: 600;
+}
+
+.auth-wrap {
+  max-width: 480px;
+  margin: 24px auto;
+}
+
+.auth-title {
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+.status-badge {
+  text-transform: capitalize;
+  padding: 6px 10px;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  display: inline-block;
+}
+
+.status-pending {
+  background: #fff7e6;
+  color: #ad6800;
+}
+
+.status-in_progress {
+  background: #e6f4ff;
+  color: #0958d9;
+}
+
+.status-resolved {
+  background: #edfdf4;
+  color: #1d7a46;
+}
+
+.summary-card {
+  border: none;
+  border-radius: 14px;
+  box-shadow: 0 8px 20px rgba(15, 23, 42, 0.08);
+}
+
+.summary-label {
+  font-size: 0.86rem;
+  opacity: 0.9;
+}
+
+.summary-value {
+  font-size: 1.6rem;
+  font-weight: 700;
+}
