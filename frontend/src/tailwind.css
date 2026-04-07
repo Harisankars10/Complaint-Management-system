@@ -2,3 +2,56 @@
 @tailwind components;
 @tailwind utilities;
 
+/*
+ * Dark mode: Bootstrap / UA styles can leave some fields white while text stays light.
+ * Note: CSS input[type="text"] does NOT match <input> with no type attribute (still text in HTML).
+ */
+html.dark {
+  color-scheme: dark;
+}
+
+/* All text-like inputs, including <input> without a type="" attribute */
+html.dark input:not([type="checkbox"]):not([type="radio"]):not([type="hidden"]):not([type="submit"]):not([type="button"]):not([type="reset"]):not([type="image"]):not([type="range"]),
+html.dark textarea,
+html.dark select {
+  background-color: #334155 !important;
+  color: #f8fafc !important;
+  border-color: #475569 !important;
+  -webkit-text-fill-color: #f8fafc;
+}
+
+html.dark input:not([type="checkbox"]):not([type="radio"]):not([type="hidden"])::placeholder,
+html.dark textarea::placeholder {
+  color: #94a3b8 !important;
+  -webkit-text-fill-color: #94a3b8;
+  opacity: 1;
+}
+
+html.dark select option {
+  background-color: #1e293b;
+  color: #f8fafc;
+}
+
+/* File inputs: extra hints for Chrome / Safari filename strip */
+html.dark input[type="file"] {
+  color-scheme: dark;
+  padding-top: 0.35rem;
+  padding-bottom: 0.35rem;
+}
+
+html.dark input[type="file"]::file-selector-button,
+html.dark input[type="file"]::-webkit-file-upload-button {
+  background-color: #475569;
+  color: #f8fafc !important;
+  border: 1px solid #64748b;
+  border-radius: 0.5rem;
+  padding: 0.4rem 0.85rem;
+  margin-right: 0.75rem;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+html.dark input[type="file"]::file-selector-button:hover,
+html.dark input[type="file"]::-webkit-file-upload-button:hover {
+  background-color: #64748b;
+}

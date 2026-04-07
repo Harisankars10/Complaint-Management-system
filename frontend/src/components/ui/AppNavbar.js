@@ -51,7 +51,7 @@ function AppNavbar({
           <button
             type="button"
             onClick={() => setIsMenuOpen((v) => !v)}
-            className="md:hidden rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 px-2 py-1 text-slate-700 dark:text-slate-100 shadow-sm"
+            className="md:hidden rounded-lg border border-slate-300 bg-white px-2 py-1 text-slate-800 shadow-sm dark:border-slate-500 dark:!bg-slate-700 dark:!text-white dark:hover:!bg-slate-600"
             aria-label="Toggle menu"
           >
             ☰
@@ -59,10 +59,11 @@ function AppNavbar({
 
           <div className="hidden md:flex items-center gap-3">
             <button
+              type="button"
               onClick={toggleTheme}
-              className="rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 px-3 py-2 text-sm text-slate-700 dark:text-slate-100 hover:bg-slate-50 dark:hover:bg-slate-700 transition"
+              className="rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm font-medium text-slate-800 shadow-sm transition hover:bg-slate-50 dark:border-slate-500 dark:!bg-slate-700 dark:!text-white dark:hover:!bg-slate-600"
             >
-              {isDark ? "Light" : "Dark"}
+              {isDark ? "Light mode" : "Dark mode"}
             </button>
             {showAuthLinks && !isAuthenticated && (
               <>
@@ -77,18 +78,19 @@ function AppNavbar({
 
             {isAuthenticated && (
               <>
-                <div className="flex items-center gap-2 rounded-xl bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 px-3 py-1.5 shadow-sm">
-                  <span className="h-7 w-7 rounded-full bg-indigo-100 text-indigo-700 grid place-items-center text-xs font-semibold">
+                <div className="flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-3 py-1.5 shadow-sm dark:border-slate-500 dark:!bg-slate-800">
+                  <span className="h-7 w-7 rounded-full bg-indigo-100 text-indigo-700 grid place-items-center text-xs font-semibold dark:bg-indigo-900 dark:text-indigo-100">
                     {user?.username?.[0]?.toUpperCase() || "U"}
                   </span>
-                  <div className="leading-tight bg-slate-100 dark:bg-slate-700 px-2.5 py-1 rounded-lg">
-                    <p className="text-sm font-semibold text-slate-700 dark:text-slate-100">{user?.username || "User"}</p>
-                    <p className="text-xs text-slate-500 dark:text-slate-400 capitalize">{user?.role || "user"}</p>
+                  <div className="leading-tight rounded-lg bg-slate-100 px-2.5 py-1 dark:!bg-slate-700/80">
+                    <p className="text-sm font-semibold text-slate-800 dark:!text-white">{user?.username || "User"}</p>
+                    <p className="text-xs text-slate-600 capitalize dark:!text-slate-300">{user?.role || "user"}</p>
                   </div>
                 </div>
                 <button
+                  type="button"
                   onClick={handleLogout}
-                  className="rounded-lg bg-slate-900 text-white px-3 py-2 text-sm font-medium hover:bg-slate-800 shadow-sm hover:shadow transition-all duration-200"
+                  className="rounded-lg bg-slate-900 px-3 py-2 text-sm font-medium text-white shadow-sm transition-all duration-200 hover:bg-slate-800 dark:bg-indigo-600 dark:hover:bg-indigo-500"
                 >
                   Logout
                 </button>
@@ -100,8 +102,9 @@ function AppNavbar({
         {isMenuOpen && (
           <div className="md:hidden mt-3 border-t border-slate-100 dark:border-slate-700 pt-3 space-y-2">
             <button
+              type="button"
               onClick={toggleTheme}
-              className="w-full rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 px-3 py-2 text-sm text-slate-700 dark:text-slate-100 hover:bg-slate-50 dark:hover:bg-slate-700 transition"
+              className="w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm font-medium text-slate-800 transition hover:bg-slate-50 dark:border-slate-500 dark:!bg-slate-700 dark:!text-white dark:hover:!bg-slate-600"
             >
               {isDark ? "Switch to Light Mode" : "Switch to Dark Mode"}
             </button>
@@ -121,8 +124,9 @@ function AppNavbar({
                   {user?.username} <span className="text-slate-500 dark:text-slate-400 capitalize">({user?.role})</span>
                 </div>
                 <button
+                  type="button"
                   onClick={handleLogout}
-                  className="w-full rounded-lg bg-slate-900 text-white px-3 py-2 text-sm font-medium hover:bg-slate-800 transition-all duration-200"
+                  className="w-full rounded-lg bg-slate-900 px-3 py-2 text-sm font-medium text-white transition-all duration-200 hover:bg-slate-800 dark:bg-indigo-600 dark:hover:bg-indigo-500"
                 >
                   Logout
                 </button>

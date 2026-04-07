@@ -176,6 +176,7 @@ function SignupPage() {
                 <div className="relative">
                   <UserIcon className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-skySoft-600 dark:text-slate-400" />
                   <input
+                    type="text"
                     className="w-full rounded-xl border border-skySoft-200 dark:border-slate-600 bg-white dark:bg-slate-700 text-slate-800 dark:text-slate-100 px-10 py-3 outline-none focus:ring-2 focus:ring-blue-500 transition"
                     name="username"
                     value={formData.username}
