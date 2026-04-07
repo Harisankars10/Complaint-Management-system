@@ -138,7 +138,16 @@ Workflow:
 - `docker-compose.yml` for local cloud-like setup
 - Media upload stored locally now (`backend/media/`) and easy to switch to cloud storage later (AWS S3, etc.)
 
-## 9) Optional Docker Run
+## 9) Azure Deployment
+
+The Azure deployment path is documented in [AZURE_DEPLOYMENT.md](AZURE_DEPLOYMENT.md). It uses:
+
+- Azure Container Registry for images
+- Azure Container Apps for the frontend and backend
+- Azure Database for MySQL Flexible Server for data
+- Azure Storage for persistent media, if you enable it
+
+## 10) Optional Docker Run
 
 From project root:
 ```bash
